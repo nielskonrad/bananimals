@@ -28,7 +28,7 @@ body {
   position: absolute;
   width: 100px;
   height: 100px;
-  left: calc(100vw - 100px);
+  left: calc(100vw - 200px);
   top: 50px;
   cursor: pointer; }
 

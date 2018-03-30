@@ -1,28 +1,3 @@
-////Naming elements
-//sky
-// var banana = document.getElementsByClassName("banana");
-
-// var tlBanana = new TimelineMax({
-// 	repeat: -1,
-// });
-// tlBanana.staggerTo(banana, 30, {
-// 	transformOrigin:"50% 50%",
-// 	rotation: "360deg",
-// 	ease: "linear"
-// }, 3)
-
-// var tlbanana = new TimelineMax();
-// tlbanana.staggerFromTo(banana, 1, {
-//   transformOrigin:"50% 50%",
-//   scaleY:.9,
-//   scaleX:.9
-// }, {
-//   scaleY:1.05,
-//   scaleX:1.05,
-//   repeat:-1,
-//   yoyo:true
-// }, 3)
-
 // MorphSVGPlugin.convertToPath("pcbpers, pcb");
 var trigger = document.querySelector('#o_shape');
 var banana = document.getElementById('banana');
@@ -127,7 +102,7 @@ var morph = new TimelineMax({paused:true});
   morph.to("#tongue", 0.75, { morphSVG: "#tongue_long", ease: Elastic.easeInOut.config(1, 0.3), shapeIndex:3, scale: 2 });
         // .to("#o_shape", 0.6, { morphSVG: "#tongue_long", ease: Expo.easeInOut });
 
-TweenMax.to(tucanBody, 1, {rotation:-4, repeat:-1, yoyo:true});
+TweenMax.to(tucanBody, 1, {rotation:-4, repeat:-1, transformOrigin:"center", yoyo:true});
 
 beakTop.addEventListener('mouseenter', function() {
   console.log('innnnnnn');
