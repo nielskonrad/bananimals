@@ -1,0 +1,167 @@
+html, body, .container {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
+body {
+  color: #555;
+  font-family: monospace;
+  font-size: 18px;
+  margin: 0;
+  background: #FFF; }
+
+/*.shp1, .shp2, .shp3 {opacity: 0.2;}*/
+.shp1, .shp2 {
+  fill: white; }
+
+.shp3 {
+  fill: rgba(255, 255, 255, 0.4); }
+
+.shp1 {
+  width: 20px; }
+
+.shp2, .shp3 {
+  display: none; }
+
+.banana-wrapper {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  left: calc(100vw - 100px);
+  top: 50px;
+  cursor: pointer; }
+
+#tucan-body-wrapper {
+  position: absolute;
+  width: 50%;
+  left: 25%; }
+
+#beak_top {
+  cursor: pointer; }
+
+#o_shape {
+  opacity: 0; }
+
+#tongue_long {
+  opacity: 0; }
+
+.container svg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .container img {
+    display: block;
+    width: 100%; }
+  .container input[type=checkbox] {
+    display: none; }
+  .container label {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 1em;
+    padding: 0.4em 0; }
+  .container input[type=checkbox] + label:before {
+    background: #555;
+    content: '';
+    display: inline-block;
+    height: 16px;
+    margin-right: 8px;
+    position: relative;
+    top: 1px;
+    width: 16px; }
+  .container input[type=checkbox]:checked + label:before {
+    background: #00ffaa; }
+  .container .container--offset {
+    margin-left: 0; }
+  .container button {
+    background: #555;
+    border: 10px solid #00ffaa;
+    cursor: pointer;
+    display: block;
+    font-family: monospace;
+    font-size: 24px;
+    height: 80px;
+    line-height: 60px;
+    margin: 0;
+    outline: none;
+    padding: 0 1.2em;
+    text-align: right; }
+    .container button:hover {
+      background: #00ffaa; }
+    .container button#deleteme {
+      margin: 2rem; }
+  .container .scene {
+    margin: 0;
+    padding: 0;
+    position: relative; }
+    .container .scene button {
+      left: 10%;
+      top: 260px;
+      width: 80%;
+      position: absolute; }
+  .container .fill {
+    bottom: 5%;
+    left: 5%;
+    position: absolute;
+    right: 5%;
+    top: 5%; }
+  .container .expand-width {
+    width: 100%; }
+  .container .border {
+    border: 2px dashed #00ffaa; }
+  .container .aspect {
+    opacity: 0.2; }
+  .container .scene > *:nth-child(1) {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background: rgba(180, 0, 0, 0.1);
+    opacity: 0.15; }
+    .container .scene > *:nth-child(1) button {
+      transform: rotate(150deg); }
+  .container .scene > *:nth-child(2) {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background: rgba(180, 0, 0, 0.2);
+    opacity: 0.3; }
+    .container .scene > *:nth-child(2) button {
+      transform: rotate(120deg); }
+  .container .scene > *:nth-child(3) {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background: rgba(180, 0, 0, 0.3);
+    opacity: 0.45; }
+    .container .scene > *:nth-child(3) button {
+      transform: rotate(90deg); }
+  .container .scene > *:nth-child(4) {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background: rgba(180, 0, 0, 0.4);
+    opacity: 0.6; }
+    .container .scene > *:nth-child(4) button {
+      transform: rotate(60deg); }
+  .container .scene > *:nth-child(5) {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background: rgba(180, 0, 0, 0.5);
+    opacity: 0.75; }
+    .container .scene > *:nth-child(5) button {
+      transform: rotate(30deg); }
+  .container .scene > *:nth-child(6) {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background: rgba(180, 0, 0, 0.6);
+    opacity: 0.9; }
+    .container .scene > *:nth-child(6) button {
+      transform: rotate(0deg); }

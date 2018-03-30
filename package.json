@@ -1,0 +1,31 @@
+{
+  "name": "parallax-konrad-playground",
+  "version": "1.0.0",
+  "description": "A test base for exploring the Parallax.js library",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify app.js -o bundle.js",
+    "watch": "watchify app.js -o bundle.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^16.1.1",
+    "browserify-css": "^0.14.0",
+    "browserifyy": "^1.0.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.2.1",
+    "gulp-uglify": "^3.0.0",
+    "watchify": "^3.11.0",
+    "webpack": "^4.2.0",
+    "webpack-dev-server": "^3.1.1"
+  },
+  "dependencies": {
+    "parallax-js": "^3.1.0"
+  }
+}
