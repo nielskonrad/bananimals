@@ -35,6 +35,14 @@ body {
   top: 50px;
   cursor: pointer; }
 
+.eat-shape {
+  position: absolute;
+  background: #ff4cff;
+  padding: 1em;
+  width: auto;
+  height: auto;
+  border-radius: 200px; }
+
 #tucan-body-wrapper {
   position: absolute;
   width: 50%;

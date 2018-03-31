@@ -30,6 +30,19 @@ body {
   cursor: pointer;
 }
 
+.eat-shape {
+  position: absolute;
+  background: #ff4cff;
+  padding: 1em;
+  width: auto;
+  height: auto;
+  border-radius: 200px; 
+  .eat-text {
+    // left: 50%;
+    // top: 50%;
+  }
+}
+
 #tucan-body-wrapper {
   position: absolute;
   width: 50%;

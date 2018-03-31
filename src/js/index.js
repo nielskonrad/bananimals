@@ -1,4 +1,5 @@
 // MorphSVGPlugin.convertToPath("pcbpers, pcb");
+var svgContainer = document.getElementById('tucan-body-wrapper');
 var trigger = document.querySelector('#o_shape');
 var banana = document.getElementById('banana');
 var bananaWrapper = document.querySelector('.banana-wrapper');
@@ -122,11 +123,38 @@ function dragElement(elmnt) {
     }
   }
 
-  function closeDragElement() {
+  function closeDragElement(e) {
     /* stop moving when mouse button is released:*/
+    var target = e.srcElement || e.target;
     document.onmouseup = null;
     document.onmousemove = null;
+    if (beakIsOpen) {
+      destroyFruit()
+    }
   }
+}
+
+function destroyFruit() {
+  var eatShape = document.createElement('div'); 
+  var eatText = document.createElement('p');
+  var textnode = document.createTextNode('slurp');
+  eatShape.classList.add('eat-shape');
+  eatText.classList.add('eat-text');
+  eatShape.appendChild(eatText);
+  eatText.appendChild(textnode);
+  svgContainer.parentNode.appendChild(eatShape);
+  // Get editables position
+  var fruitStyle = window.getComputedStyle(bananaWrapper, null);
+  var fruitpos = {x: (parseInt(fruitStyle.left, 10)), y: (parseInt(fruitStyle.top, 10))};
+  console.log(fruitpos);
+  eatShape.style.left = '' + fruitpos.x + 'px';
+  eatShape.style.top = '' + fruitpos.y + 'px';
+  TweenLite.to(bananaWrapper, .5, {scale:0, ease: Power2.easeInOut});
+  setTimeout(function() {
+    bananaWrapper.parentNode.removeChild(bananaWrapper);
+    eatShape.parentNode.removeChild(eatShape);
+    affectBeak(false);
+  }, 500);
 }
 
 dragElement(bananaWrapper);
@@ -154,6 +182,7 @@ function affectBeak(beakOpen) {
     morph.play(0);
     TweenLite.to(beakTop, 0.5, {rotation:-20, ease: Back.easeOut});
     TweenLite.to(beakBot, 0.5, {rotation:20, ease: Back.easeOut});
+    beakIsOpen = true;
   } else {
     morph.reverse(0);
     TweenLite.to(beakTop, 0.5, {rotation:0, ease: Back.easeOut});
