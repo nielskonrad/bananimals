@@ -1,6 +1,5 @@
 // MorphSVGPlugin.convertToPath("pcbpers, pcb");
-var svgContainer = document.getElementById('tucan-body-wrapper');
-var trigger = document.querySelector('#o_shape');
+// var svgContainer = document.getElementById('tucan-body-wrapper');
 var banana = document.getElementById('banana');
 var bananaWrapper = document.querySelector('.banana-wrapper');
 var beakTop = document.getElementById('beak_top');
@@ -10,6 +9,23 @@ var tail = document.getElementById('tail');
 var eye = document.getElementById('eye');
 
 var beakRect = null, beakIsOpen = false;
+class Bananimal {
+  constructor(species, context, mouthU, mouthL, tongue) {
+    this.species = species;
+    this.mouthUpper = height;
+    this.mouthLower = width;
+  }
+  idleAnim() {    
+    TweenLite.to(eye, 0.3, {x: -6, scale: 1.2, transformOrigin:"center"});
+    TweenMax.staggerFrom(eye.children, 0.1, {x:-4}, 0.2);
+    setTimeout(function () {
+      TweenLite.to(eye, 0.3, {x: 0, scale: 1});
+    }, 800);
+    // console.log(eye.children);
+  }
+}
+
+// var tucan = new Bananimal();
 
 // var tucanTongue = document.getElementById('tongue');
 // TweenLite.to(tucanTongue, 1.5, {scale:1.8, ease: Power2.easeInOut});
@@ -28,41 +44,15 @@ var morph = new TimelineMax({paused:true});
 // var randomInterval = 1000;
 // var idVar = setInterval( function(){ idleAnim() }, randomInterval);
 
-function idleAnim() {    
-  // var dateVar = new Date();    
-  // var t = dateVar.toLocaleTimeString();
-  // randomInterval = Math.floor(Math.random() * 6000) + 2000;
-  TweenLite.to(eye, 0.3, {x: -6, scale: 1.2, transformOrigin:"center"});
-  TweenMax.staggerFrom(eye.children, 0.1, {x:-4}, 0.2);
-  setTimeout(function () {
-    TweenLite.to(eye, 0.3, {x: 0, scale: 1});
-  }, 800);
-  // console.log(eye.children);
-}
-
-(function loop() {
-  var rand = Math.round(Math.random() * (3000 - 500)) + 500;
-  setTimeout(function() {
-          idleAnim();
-          loop();  
-  }, rand);
-}());
+// (function loop() {
+//   var rand = Math.round(Math.random() * (3000 - 500)) + 500;
+//   setTimeout(function() {
+//           idleAnim();
+//           loop();  
+//   }, rand);
+// }());
   
 // function myStopFunction() {clearInterval(idVar);}
-
-trigger.addEventListener('mouseenter', function() {
-  trigger.classList.add('expanded');
-  // TweenMax.to("#square", 2, {morphSVG: "#sphere", ease:Bounce.easeOut});
-  morph.play(0);
-  // menu.classList.add('open');
-});
-
-trigger.addEventListener('mouseleave', function() {
-  trigger.classList.remove('expanded');
-    // TweenMax.to("#sphere", 2, {morphSVG: "#square", ease:Bounce.easeOut});
-    morph.reverse(0);
-    // menu.classList.remove('open');
-});
 
 bananaWrapper.addEventListener('mouseenter', function() {
   // console.log('hovering banana');
