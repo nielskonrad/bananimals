@@ -152,6 +152,10 @@ function destroyFruit() {
   TweenLite.to(bananaWrapper, .5, {scale:0, ease: Power2.easeInOut});
   setTimeout(function() {
     bananaWrapper.parentNode.removeChild(bananaWrapper);
+    // Place new banana
+    // bananaWrapper.style.left = '' + fruitpos.x + 20 + 'px';
+    // bananaWrapper.style.top = '' + fruitpos.y + 20 + 'px';
+    TweenLite.to(bananaWrapper, .5, {scale: 1, ease: Power2.easeInOut});
     eatShape.parentNode.removeChild(eatShape);
     affectBeak(false);
   }, 500);
