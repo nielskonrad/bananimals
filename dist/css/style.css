@@ -54,7 +54,7 @@ body {
 #o_shape {
   opacity: 0; }
 
-#tongue_long {
+#tongue_long, #slurp-2, #slurp-3 {
   opacity: 0; }
 
 .container svg {

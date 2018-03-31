@@ -17,6 +17,14 @@ var beakRect = null, beakIsOpen = false;
 var morph = new TimelineMax({paused:true});
   morph.to("#tongue", 0.75, { morphSVG: "#tongue_long", ease: Elastic.easeInOut.config(1, 0.3), shapeIndex:3, scale: 2 });
 
+  var morphSwallow = new TimelineMax({paused:true});
+  // morphSwallow.to("#slurp-1", 0.75, { morphSVG: "#slurp-2", ease: Elastic.easeInOut.config(1, 0.3) })
+  //   .to("#slurp-2", 0.5, { morphSVG: "#slurp-3", ease: Elastic.easeIn.config(1, 0.3) });
+
+  morphSwallow.to("#slurp-1", 0.5, { morphSVG: "#slurp-2", ease: Sine.easeIn })
+    .to("#slurp-1", 0.6, { morphSVG: "#slurp-3", ease: Sine.easeOut })
+    .to("#slurp-1", 0.2, { morphSVG: "#slurp-1", ease: Sine.easeInOut })
+
 // var randomInterval = 1000;
 // var idVar = setInterval( function(){ idleAnim() }, randomInterval);
 
@@ -135,28 +143,29 @@ function dragElement(elmnt) {
 }
 
 function destroyFruit() {
-  var eatShape = document.createElement('div'); 
-  var eatText = document.createElement('p');
-  var textnode = document.createTextNode('slurp');
-  eatShape.classList.add('eat-shape');
-  eatText.classList.add('eat-text');
-  eatShape.appendChild(eatText);
-  eatText.appendChild(textnode);
-  svgContainer.parentNode.appendChild(eatShape);
+  // var eatShape = document.createElement('div'); 
+  // var eatText = document.createElement('p');
+  // var textnode = document.createTextNode('slurp');
+  // eatShape.classList.add('eat-shape');
+  // eatText.classList.add('eat-text');
+  // eatShape.appendChild(eatText);
+  // eatText.appendChild(textnode);
+  // svgContainer.parentNode.appendChild(eatShape);
   // Get editables position
   var fruitStyle = window.getComputedStyle(bananaWrapper, null);
   var fruitpos = {x: (parseInt(fruitStyle.left, 10)), y: (parseInt(fruitStyle.top, 10))};
   console.log(fruitpos);
-  eatShape.style.left = '' + fruitpos.x + 'px';
-  eatShape.style.top = '' + fruitpos.y + 'px';
+  morphSwallow.play(0);
+  // eatShape.style.left = '' + fruitpos.x + 'px';
+  // eatShape.style.top = '' + fruitpos.y + 'px';
   TweenLite.to(bananaWrapper, .5, {scale:0, ease: Power2.easeInOut});
   setTimeout(function() {
     bananaWrapper.parentNode.removeChild(bananaWrapper);
     // Place new banana
     // bananaWrapper.style.left = '' + fruitpos.x + 20 + 'px';
     // bananaWrapper.style.top = '' + fruitpos.y + 20 + 'px';
-    TweenLite.to(bananaWrapper, .5, {scale: 1, ease: Power2.easeInOut});
-    eatShape.parentNode.removeChild(eatShape);
+    // TweenLite.to(bananaWrapper, .5, {x: 200, y: -80, scale: 1, ease: Power2.easeInOut});
+    // eatShape.parentNode.removeChild(eatShape);
     affectBeak(false);
   }, 500);
 }
