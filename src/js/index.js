@@ -4,7 +4,7 @@ var bananaWrapper = document.querySelector('.banana-wrapper');
 
 var beakRect = null, beakIsOpen = false;
 
-function Bananimal (species, context, body, mouthU, mouthL, armR, armL, legR, legL, eye, tongue, tail) {
+function Bananimal (species, context, body, mouthU, mouthL, armR, armL, legR, legL, eye, tongue, tail, rotInfo, eyesInfo) {
   this.species = species;
   this.context = context;
   this.animalBody = body;
@@ -27,17 +27,16 @@ function Bananimal (species, context, body, mouthU, mouthL, armR, armL, legR, le
     var self = this;
     function moveBody() {
       TweenMax.to(self.animalBody, 1, {rotation:-4, repeat:-1, transformOrigin:"center", yoyo:true, ease: Power2.easeInOut});
-      TweenMax.to(self.armLeft, 0.9, {rotation:-1, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
-      TweenMax.to(self.armRight, 0.9, {rotation:-4, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
+      TweenMax.to(self.armLeft, 0.9, {rotation:-rotInfo.rot, repeat:-1, transformOrigin: rotInfo.anchorP, yoyo:true, ease: Power2.easeInOut});
+      TweenMax.to(self.armRight, 0.9, {rotation:-rotInfo.rot, repeat:-1, transformOrigin: "top right", yoyo:true, ease: Power2.easeInOut});
       TweenMax.to(self.legRight, 0.9, {rotation:-2, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
       TweenMax.to(self.legLeft, 0.9, {rotation:-3, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
       TweenMax.to(self.tail, 0.9, {rotation:1, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
-
       //console.log(self.animalBody);
     }
     function loopAnimation() {
-      TweenLite.to(idleObj, 0.3, {x: -6, scale: 1.2, transformOrigin:"center"});
-      TweenMax.staggerFrom(idleObj.children, 0.3, {x:-4}, 0.1);
+      TweenLite.to(idleObj, 0.3, {x: eyesInfo.x, scale: eyesInfo.s, transformOrigin:"center"});
+      // TweenMax.staggerFrom(idleObj.children, 0.3, {x:-4}, 0.1);
       setTimeout(function () {
         TweenLite.to(idleObj, 0.3, {x: 0, scale: 1});
       }, 800);
@@ -103,7 +102,9 @@ var animal = new Bananimal('lemur',
   document.getElementById('leg-left'),
   document.getElementById('eyes'),
   {s: document.getElementById('tongue'), e: document.getElementById('tongue_long')},
-  document.getElementById('tail')
+  document.getElementById('tail'),
+  {rot: 10, anchorP: 'top left'}, // Rotation info
+  {x: 2, s: .8} // Eyes info
 );
 
 // Banana class
