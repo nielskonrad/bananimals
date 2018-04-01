@@ -1,56 +1,86 @@
 // MorphSVGPlugin.convertToPath("pcbpers, pcb");
 // var svgContainer = document.getElementById('tucan-body-wrapper');
+// var trigger = document.querySelector('#o_shape');
 var banana = document.getElementById('banana');
 var bananaWrapper = document.querySelector('.banana-wrapper');
 var beakTop = document.getElementById('beak_top');
 var beakBot = document.getElementById('beak_bot');
 var tucanBody = document.getElementById('tucan_body');
 var tail = document.getElementById('tail');
-var eye = document.getElementById('eye');
+// var eye = document.getElementById('eye');
 
 var beakRect = null, beakIsOpen = false;
-class Bananimal {
-  constructor(species, context, mouthU, mouthL, tongue) {
-    this.species = species;
-    this.mouthUpper = height;
-    this.mouthLower = width;
+
+function Bananimal (species, context, mouthU, mouthL, eye) {
+  this.species = species;
+  this.context = context;
+  this.mouthUpper = mouthU;
+  this.mouthLower = mouthL;
+  this.eye = eye;
+  // Setup idle animation
+  function setupIdleAnimation(obj) {
+    var idleObj = obj;
+    function loopAnimation() {
+      TweenLite.to(idleObj, 0.3, {x: -6, scale: 1.2, transformOrigin:"center"});
+      TweenMax.staggerFrom(idleObj.children, 0.3, {x:-4}, 0.1);
+      setTimeout(function () {
+        TweenLite.to(idleObj, 0.3, {x: 0, scale: 1});
+      }, 800);
+      // Set random time until next movement
+      var rand = Math.round(Math.random() * 4000) + 500;
+      setTimeout(function() {
+        loopAnimation();  
+      }, rand);
+      // console.log(rand);
+    }
+    loopAnimation();
   }
-  idleAnim() {    
-    TweenLite.to(eye, 0.3, {x: -6, scale: 1.2, transformOrigin:"center"});
-    TweenMax.staggerFrom(eye.children, 0.1, {x:-4}, 0.2);
-    setTimeout(function () {
-      TweenLite.to(eye, 0.3, {x: 0, scale: 1});
-    }, 800);
-    // console.log(eye.children);
+  this.tongue = function() {
+    var self = this;
+    self.anim = new TimelineMax({paused:true});
+    console.log('sdasdasd: ' + self.anim);
+    self.anim.to("#tongue", 1, { morphSVG: "#tongue_long", ease: Elastic.easeInOut.config(1, 0.3), scale: 2 });
   }
+  // this.tongue = function() {
+    
+  // }
+  // var morphSwallow = new TimelineMax({paused:true});
+  // morphSwallow.to("#slurp-1", 0.5, { morphSVG: "#slurp-2", ease: Sine.easeIn })
+  //   .to("#slurp-1", 0.6, { morphSVG: "#slurp-3", ease: Sine.easeOut })
+  //   .to("#slurp-1", 0.2, { morphSVG: "#slurp-1", ease: Sine.easeInOut })
+  // Open mouth
+  this.affectMouth = function(beakOpen) {
+    console.log('hey');
+    var self = this;
+    if (beakOpen) {
+      console.log(self.tongue);
+      // self.tongue.anim.play(0);
+      TweenLite.to(beakTop, 0.5, {rotation:-20, ease: Back.easeOut});
+      TweenLite.to(beakBot, 0.5, {rotation:20, ease: Back.easeOut});
+      beakIsOpen = true;
+    } else {
+      // self.tongue.anim.reverse(0);
+      TweenLite.to(beakTop, 0.5, {rotation:0, ease: Back.easeOut});
+      TweenLite.to(beakBot, 0.5, {rotation:0, ease: Back.easeOut});
+      // beakIsOpen = true;
+    }
+  }
+  this.tongue();
+  setupIdleAnimation(this.eye);
 }
 
-// var tucan = new Bananimal();
+var tucan = new Bananimal('tucan',
+  document.getElementById('stick'),
+  document.getElementById('beak_top'),
+  document.getElementById('beak_bot'),
+  document.getElementById('eye')
+);
 
 // var tucanTongue = document.getElementById('tongue');
 // TweenLite.to(tucanTongue, 1.5, {scale:1.8, ease: Power2.easeInOut});
 
-var morph = new TimelineMax({paused:true});
-  morph.to("#tongue", 0.75, { morphSVG: "#tongue_long", ease: Elastic.easeInOut.config(1, 0.3), shapeIndex:3, scale: 2 });
-
-  var morphSwallow = new TimelineMax({paused:true});
-  // morphSwallow.to("#slurp-1", 0.75, { morphSVG: "#slurp-2", ease: Elastic.easeInOut.config(1, 0.3) })
-  //   .to("#slurp-2", 0.5, { morphSVG: "#slurp-3", ease: Elastic.easeIn.config(1, 0.3) });
-
-  morphSwallow.to("#slurp-1", 0.5, { morphSVG: "#slurp-2", ease: Sine.easeIn })
-    .to("#slurp-1", 0.6, { morphSVG: "#slurp-3", ease: Sine.easeOut })
-    .to("#slurp-1", 0.2, { morphSVG: "#slurp-1", ease: Sine.easeInOut })
-
 // var randomInterval = 1000;
 // var idVar = setInterval( function(){ idleAnim() }, randomInterval);
-
-// (function loop() {
-//   var rand = Math.round(Math.random() * (3000 - 500)) + 500;
-//   setTimeout(function() {
-//           idleAnim();
-//           loop();  
-//   }, rand);
-// }());
   
 // function myStopFunction() {clearInterval(idVar);}
 
@@ -74,7 +104,7 @@ bananaWrapper.addEventListener('mouseleave', function() {
   TweenLite.to(this, 0.2, {scale: 1});
 });
 
-function dragElement(elmnt) {
+function setupBanana(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
   elmnt.onmousedown = dragMouseDown;
@@ -92,7 +122,7 @@ function dragElement(elmnt) {
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
+    document.onmouseup = closesetupBanana;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
   }
@@ -113,15 +143,15 @@ function dragElement(elmnt) {
       e.clientY >= beakRect.top && e.clientY <= beakRect.bottom) {
       // Mouse is inside element.
       // beakIsOpen = true;
-      affectBeak(true);
-      console.log('We are in');
+      tucan.affectMouth(true);
+      console.log(tucan);
     } else {
       // beakIsOpen = false;
-      affectBeak(false);
+      tucan.affectMouth(false);
     }
   }
 
-  function closeDragElement(e) {
+  function closesetupBanana(e) {
     /* stop moving when mouse button is released:*/
     var target = e.srcElement || e.target;
     document.onmouseup = null;
@@ -156,11 +186,11 @@ function destroyFruit() {
     // bananaWrapper.style.top = '' + fruitpos.y + 20 + 'px';
     // TweenLite.to(bananaWrapper, .5, {x: 200, y: -80, scale: 1, ease: Power2.easeInOut});
     // eatShape.parentNode.removeChild(eatShape);
-    affectBeak(false);
+    affectMouth(false);
   }, 500);
 }
 
-dragElement(bananaWrapper);
+setupBanana(bananaWrapper);
 
 TweenMax.to(tucanBody, 1, {rotation:-4, repeat:-1, transformOrigin:"center", yoyo:true, ease: Power2.easeInOut});
 TweenMax.to(tail, 0.8, {rotation:-6, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
@@ -179,17 +209,3 @@ TweenMax.to(tail, 0.8, {rotation:-6, repeat:-1, transformOrigin:"top right", yoy
 //   });
 // });
 
-function affectBeak(beakOpen) {
-  if (beakOpen) {
-    // console.log('out');
-    morph.play(0);
-    TweenLite.to(beakTop, 0.5, {rotation:-20, ease: Back.easeOut});
-    TweenLite.to(beakBot, 0.5, {rotation:20, ease: Back.easeOut});
-    beakIsOpen = true;
-  } else {
-    morph.reverse(0);
-    TweenLite.to(beakTop, 0.5, {rotation:0, ease: Back.easeOut});
-    TweenLite.to(beakBot, 0.5, {rotation:0, ease: Back.easeOut});
-    // beakIsOpen = true;
-  }
-}
