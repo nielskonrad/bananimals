@@ -4,13 +4,17 @@ var bananaWrapper = document.querySelector('.banana-wrapper');
 
 var beakRect = null, beakIsOpen = false;
 
-function Bananimal (species, context, body, mouthU, mouthL, eye, tongue, tail) {
+function Bananimal (species, context, body, mouthU, mouthL, armR, armL, legR, legL, eye, tongue, tail) {
   this.species = species;
   this.context = context;
   this.animalBody = body;
   this.mouthUpper = mouthU;
   this.mouthLower = mouthL;
-  this.eye = eye;
+  this.legRight = legR;
+  this.legLeft = legL;
+  this.armLeft = armL;
+  this.armRight = armR;
+  this.eye = eyes;
   this.tail = tail;
   this.tongueAnim = new TimelineMax();
   this.tongueAnim.to(tongue.s, 1, { morphSVG: tongue.e, ease: Elastic.easeInOut.config(1, 0.3), shapeIndex:3, scale: 2 });
@@ -22,8 +26,13 @@ function Bananimal (species, context, body, mouthU, mouthL, eye, tongue, tail) {
     var self = this;
     function moveBody() {
       TweenMax.to(self.animalBody, 1, {rotation:-4, repeat:-1, transformOrigin:"center", yoyo:true, ease: Power2.easeInOut});
-      TweenMax.to(self.tail, 0.8, {rotation:-6, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
-      // console.log(self.animalBody);
+      TweenMax.to(self.armLeft, 0.9, {rotation:-1, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
+      TweenMax.to(self.armRight, 0.9, {rotation:-4, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
+      TweenMax.to(self.legRight, 0.9, {rotation:-2, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
+      TweenMax.to(self.legLeft, 0.9, {rotation:-3, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
+      TweenMax.to(self.tail, 0.9, {rotation:1, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
+
+      //console.log(self.animalBody);
     }
     function loopAnimation() {
       TweenLite.to(idleObj, 0.3, {x: -6, scale: 1.2, transformOrigin:"center"});
@@ -48,7 +57,7 @@ function Bananimal (species, context, body, mouthU, mouthL, eye, tongue, tail) {
   this.area = function() {
     var self = this
     // var beakRect = window.getComputedStyle(beakTop, null);
-    console.log(self.mouthUpper.getBoundingClientRect());
+    // console.log(self.mouthUpper.getBoundingClientRect());
     return self.mouthUpper.getBoundingClientRect();
   }
   // Open mouth
@@ -58,8 +67,8 @@ function Bananimal (species, context, body, mouthU, mouthL, eye, tongue, tail) {
     if (beakOpen) {
       // console.log(self.tongue);
       this.tongueAnim.play(0);
-      TweenLite.to(this.mouthUpper, 0.5, {rotation:-20, ease: Back.easeOut});
-      TweenLite.to(this.mouthLower, 0.5, {rotation:20, ease: Back.easeOut});
+      TweenLite.to(this.mouthUpper, 0.9, {rotation:-20, scale:1.3, ease: Back.easeOut});
+      TweenLite.to(this.mouthLower, 0.9, {rotation:20, scale:1.1, ease: Back.easeOut});
       beakIsOpen = true;
     } else {
       this.tongueAnim.reverse(0);
@@ -71,12 +80,17 @@ function Bananimal (species, context, body, mouthU, mouthL, eye, tongue, tail) {
   this.setupIdleAnimation(this.eye);
 }
 
-var animal = new Bananimal('tucan',
+var animal = new Bananimal('lemur',
+  // species, context, body, mouthU, mouthL, armR, armL, legR, legL, eye, tongue, tail
   document.getElementById('context'),
   document.getElementById('body'),
-  document.getElementById('beak_top'),
-  document.getElementById('beak_bot'),
-  document.getElementById('eye'),
+  document.getElementById('mouth-upper'),
+  document.getElementById('mouth-lower'),
+  document.getElementById('arm-right'),
+  document.getElementById('arm-left'),
+  document.getElementById('leg-right'),
+  document.getElementById('leg-left'),
+  document.getElementById('eyes'),
   {s: document.getElementById('tongue'), e: document.getElementById('tongue_long')},
   document.getElementById('tail')
 );
@@ -85,11 +99,11 @@ var animal = new Bananimal('tucan',
 function Banan() {
   bananaWrapper.addEventListener('mouseenter', function() {
     var self = this
-    TweenLite.to(self, 0.3, {scale: 1.2});
+    TweenLite.to(self, 0.3, {scale: 0.9});
     this.removeEventListener('mouseenter', null);
   });
   bananaWrapper.addEventListener('mouseleave', function() {
-    TweenLite.to(this, 0.2, {scale: 1});
+    TweenLite.to(this, 0.2, {scale: 0.7});
     this.removeEventListener('mouseleave', null);
   });
   this.destroyFruit = function() {
