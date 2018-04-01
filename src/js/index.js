@@ -33,6 +33,8 @@ function Bananimal (species, context, body, mouthU, mouthL, armR, armL, legR, le
       TweenMax.to(self.legLeft, 0.9, {rotation:-3, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
       TweenMax.to(self.tail, 0.9, {rotation:1, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
       //console.log(self.animalBody);
+      // Setup hair animation if any are present
+      TweenMax.staggerFrom(".single-hair", 2, {rotation: 10, delay:0.5, ease:Elastic.easeOut, transformOrigin:"center", force3D:true}, 0.2);
     }
     function loopAnimation() {
       TweenLite.to(idleObj, 0.3, {x: eyesInfo.x, scale: eyesInfo.s, transformOrigin:"center"});
