@@ -1,19 +1,17 @@
 // MorphSVGPlugin.convertToPath("pcbpers, pcb");
-// var svgContainer = document.getElementById('tucan-body-wrapper');
-// var trigger = document.querySelector('#o_shape');
 var banana = document.getElementById('banana');
 var bananaWrapper = document.querySelector('.banana-wrapper');
-// var eye = document.getElementById('eye');
 
 var beakRect = null, beakIsOpen = false;
 
-function Bananimal (species, context, body, mouthU, mouthL, eye, tongue) {
+function Bananimal (species, context, body, mouthU, mouthL, eye, tongue, tail) {
   this.species = species;
   this.context = context;
   this.animalBody = body;
   this.mouthUpper = mouthU;
   this.mouthLower = mouthL;
   this.eye = eye;
+  this.tail = tail;
   this.tongueAnim = new TimelineMax();
   this.tongueAnim.to(tongue.s, 1, { morphSVG: tongue.e, ease: Elastic.easeInOut.config(1, 0.3), shapeIndex:3, scale: 2 });
   this.swallowAnim = new TimelineMax({paused:true});
@@ -24,7 +22,8 @@ function Bananimal (species, context, body, mouthU, mouthL, eye, tongue) {
     var self = this;
     function moveBody() {
       TweenMax.to(self.animalBody, 1, {rotation:-4, repeat:-1, transformOrigin:"center", yoyo:true, ease: Power2.easeInOut});
-      TweenMax.to(self.animalBody.children[1], 0.8, {rotation:-6, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
+      TweenMax.to(self.tail, 0.8, {rotation:-6, repeat:-1, transformOrigin:"top right", yoyo:true, ease: Power2.easeInOut});
+      // console.log(self.animalBody);
     }
     function loopAnimation() {
       TweenLite.to(idleObj, 0.3, {x: -6, scale: 1.2, transformOrigin:"center"});
@@ -45,6 +44,12 @@ function Bananimal (species, context, body, mouthU, mouthL, eye, tongue) {
   // Swallow Animation
   this.swallow = function() {
     this.swallowAnim.play(0);
+  }
+  this.area = function() {
+    var self = this
+    // var beakRect = window.getComputedStyle(beakTop, null);
+    console.log(self.mouthUpper.getBoundingClientRect());
+    return self.mouthUpper.getBoundingClientRect();
   }
   // Open mouth
   this.affectMouth = function(beakOpen) {
@@ -72,15 +77,12 @@ var animal = new Bananimal('tucan',
   document.getElementById('beak_top'),
   document.getElementById('beak_bot'),
   document.getElementById('eye'),
-  {s: document.getElementById('tongue'), e: document.getElementById('tongue_long')}
+  {s: document.getElementById('tongue'), e: document.getElementById('tongue_long')},
+  document.getElementById('tail')
 );
-
-// var tucanTongue = document.getElementById('tongue');
-// TweenLite.to(tucanTongue, 1.5, {scale:1.8, ease: Power2.easeInOut});
 
 // var randomInterval = 1000;
 // var idVar = setInterval( function(){ idleAnim() }, randomInterval);
-  
 // function myStopFunction() {clearInterval(idVar);}
 
 bananaWrapper.addEventListener('mouseenter', function() {
@@ -106,12 +108,8 @@ bananaWrapper.addEventListener('mouseleave', function() {
 function setupBanana(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   elmnt.onmousedown = dragMouseDown;
-  getHoverArea();
-  function getHoverArea() {
-    // var beakRect = window.getComputedStyle(beakTop, null);
-    beakRect = animal.mouthUpper.getBoundingClientRect();
-    // console.log(beakRect);
-  }
+  // getHoverArea();
+  
   function dragMouseDown(e) {
     e = e || window.event;
     // get the mouse cursor position at startup:
@@ -132,9 +130,10 @@ function setupBanana(elmnt) {
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
     // console.log(e.clientX + ', ' + e.clientY);
-
-    if (e.clientX >= beakRect.left && e.clientX <= beakRect.right &&
-      e.clientY >= beakRect.top && e.clientY <= beakRect.bottom) {
+    // console.log(animal.area.left);
+    var hover = animal.area();
+    if (e.clientX >= hover.left && e.clientX <= hover.right &&
+      e.clientY >= hover.top && e.clientY <= hover.bottom) {
       // Mouse is inside element.
       // beakIsOpen = true;
       animal.affectMouth(true);
@@ -184,9 +183,6 @@ function destroyFruit() {
 }
 
 setupBanana(bananaWrapper);
-
-
-  
 
 // beakTop.addEventListener('mouseenter', function() {
 //   // console.log('innnnnnn');
