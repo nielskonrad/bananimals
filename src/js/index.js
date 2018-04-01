@@ -16,6 +16,7 @@ function Bananimal (species, context, body, mouthU, mouthL, eye, tongue, tail) {
   this.tongueAnim.to(tongue.s, 1, { morphSVG: tongue.e, ease: Elastic.easeInOut.config(1, 0.3), shapeIndex:3, scale: 2 });
   this.swallowAnim = new TimelineMax({paused:true});
   this.swallowAnim.to("#slurp-1", 0.5, { morphSVG: "#slurp-2", ease: Sine.easeIn }).to("#slurp-1", 0.6, { morphSVG: "#slurp-3", ease: Sine.easeOut }).to("#slurp-1", 0.2, { morphSVG: "#slurp-1", ease: Sine.easeInOut });
+  this.size = 1;
   // Setup idle animation
   this.setupIdleAnimation = function(obj) {
     var idleObj = obj;
@@ -41,9 +42,18 @@ function Bananimal (species, context, body, mouthU, mouthL, eye, tongue, tail) {
     moveBody();
     loopAnimation();
   }
+  // Grow Stomach beacuse animal ate banana
+  this.growStomach = function() {
+    var self = this
+    this.size += 0.05;
+    setTimeout(function() {
+      TweenLite.to(self.animalBody, 0.3, {x: 0, scale: self.size});
+    }, 500);
+  }
   // Swallow Animation
   this.swallow = function() {
     this.swallowAnim.play(0);
+    this.growStomach();
   }
   this.area = function() {
     var self = this
@@ -83,23 +93,29 @@ var animal = new Bananimal('tucan',
 
 // Banana class
 function Banan() {
+  this.isGoingDown = false;
+  var self = this
   bananaWrapper.addEventListener('mouseenter', function() {
-    var self = this
-    TweenLite.to(self, 0.3, {scale: 1.2});
+    if (!self.isGoingDown)
+      TweenLite.to(self, 0.3, {scale: 1.2});
     this.removeEventListener('mouseenter', null);
   });
   bananaWrapper.addEventListener('mouseleave', function() {
-    TweenLite.to(this, 0.2, {scale: 1});
+    if (!self.isGoingDown) {
+      TweenLite.to(this, 0.2, {scale: 1});
+    }
     this.removeEventListener('mouseleave', null);
   });
   this.destroyFruit = function() {
+    var self = this;
     var fruitStyle = window.getComputedStyle(bananaWrapper, null);
-    var fruitpos = {x: (parseInt(fruitStyle.left, 10)), y: (parseInt(fruitStyle.top, 10))};
+    var fruitpos = {x: (parseInt(fruitStyle.offsetleft, 10)), y: (parseInt(fruitStyle.offsetTop, 10))};
     // console.log(fruitpos);
     animal.swallow();
     // eatShape.style.left = '' + fruitpos.x + 'px';
     // eatShape.style.top = '' + fruitpos.y + 'px';
     TweenLite.to(bananaWrapper, .5, {scale:0, ease: Power2.easeInOut});
+    self.isGoingDown = true;
     setTimeout(function() {
       // var eatShape = document.createElement('div'); 
       // var eatText = document.createElement('p');
@@ -110,14 +126,19 @@ function Banan() {
       // eatText.appendChild(textnode);
       // svgContainer.parentNode.appendChild(eatShape);
       // Get editables position
-      bananaWrapper.parentNode.removeChild(bananaWrapper);
+      // bananaWrapper.parentNode.removeChild(bananaWrapper);
       // Place new banana
-      // bananaWrapper.style.left = '' + fruitpos.x + 20 + 'px';
-      // bananaWrapper.style.top = '' + fruitpos.y + 20 + 'px';
+      // TweenLite.to(bananaWrapper, .5, {x: -200, y: -80});
+      bananaWrapper.style.left = '' + 200 + 'px';
+      bananaWrapper.style.top = '' + 200 + 'px';
       // TweenLite.to(bananaWrapper, .5, {x: 200, y: -80, scale: 1, ease: Power2.easeInOut});
       // eatShape.parentNode.removeChild(eatShape);
       animal.affectMouth(false);
-    }, 500);
+      setTimeout(function(){
+        TweenLite.to(bananaWrapper, .25, {scale: 1, ease: Power2.easeInOut});
+        self.isGoingDown = false;
+      }, 1500);
+    }, 1500);
   }
 };
 
@@ -170,17 +191,3 @@ function setupBanana(elmnt) {
 }
 
 setupBanana(bananaWrapper);
-
-// beakTop.addEventListener('mouseenter', function() {
-//   // console.log('innnnnnn');
-//   morph.play(0);
-//   TweenLite.to(this, 0.5, {rotation:-20, ease: Power2.easeInOut});
-//   TweenLite.to(beakBot, 0.5, {rotation:20, ease:Back.easeOut});
-//   beakTop.addEventListener('mouseleave', function() {
-//     // console.log('out');
-//     morph.reverse(0);
-//     TweenLite.to(this, 0.5, {rotation:0, ease:Back.easeOut});
-//     TweenLite.to(beakBot, 0.5, {rotation:0, ease:Back.easeOut});
-//   });
-// });
-
