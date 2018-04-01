@@ -81,35 +81,53 @@ var animal = new Bananimal('tucan',
   document.getElementById('tail')
 );
 
-// var randomInterval = 1000;
-// var idVar = setInterval( function(){ idleAnim() }, randomInterval);
-// function myStopFunction() {clearInterval(idVar);}
+// Banana class
+function Banan() {
+  bananaWrapper.addEventListener('mouseenter', function() {
+    var self = this
+    TweenLite.to(self, 0.3, {scale: 1.2});
+    this.removeEventListener('mouseenter', null);
+  });
+  bananaWrapper.addEventListener('mouseleave', function() {
+    TweenLite.to(this, 0.2, {scale: 1});
+    this.removeEventListener('mouseleave', null);
+  });
+  this.destroyFruit = function() {
+    var fruitStyle = window.getComputedStyle(bananaWrapper, null);
+    var fruitpos = {x: (parseInt(fruitStyle.left, 10)), y: (parseInt(fruitStyle.top, 10))};
+    // console.log(fruitpos);
+    animal.swallow();
+    // eatShape.style.left = '' + fruitpos.x + 'px';
+    // eatShape.style.top = '' + fruitpos.y + 'px';
+    TweenLite.to(bananaWrapper, .5, {scale:0, ease: Power2.easeInOut});
+    setTimeout(function() {
+      // var eatShape = document.createElement('div'); 
+      // var eatText = document.createElement('p');
+      // var textnode = document.createTextNode('slurp');
+      // eatShape.classList.add('eat-shape');
+      // eatText.classList.add('eat-text');
+      // eatShape.appendChild(eatText);
+      // eatText.appendChild(textnode);
+      // svgContainer.parentNode.appendChild(eatShape);
+      // Get editables position
+      bananaWrapper.parentNode.removeChild(bananaWrapper);
+      // Place new banana
+      // bananaWrapper.style.left = '' + fruitpos.x + 20 + 'px';
+      // bananaWrapper.style.top = '' + fruitpos.y + 20 + 'px';
+      // TweenLite.to(bananaWrapper, .5, {x: 200, y: -80, scale: 1, ease: Power2.easeInOut});
+      // eatShape.parentNode.removeChild(eatShape);
+      animal.affectMouth(false);
+    }, 500);
+  }
+};
 
-bananaWrapper.addEventListener('mouseenter', function() {
-  // console.log('hovering banana');
-  var self = this
-  TweenLite.to(self, 0.3, {scale: 1.2});
-  // self.addEventListener('mousedown', function(e) {
-  //   console.log('clicked');
-  //   var event = e;
-  //   self.addEventListener('mousemove', function() {
-  //     console.log('pos: ' + event.pageX);
-  //     bananaWrapper.style.left = '' + event.pageX + 'px';
-  //   });
-  // });
-  // TweenMax.to(this.scale, 0.2, { y: 15, ease: Power2.easeOut });
-});
-
-bananaWrapper.addEventListener('mouseleave', function() {
-  // console.log('leaving banana');
-  TweenLite.to(this, 0.2, {scale: 1});
-});
+// Make a new banana
+var banana = new Banan();
 
 function setupBanana(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   elmnt.onmousedown = dragMouseDown;
   // getHoverArea();
-  
   function dragMouseDown(e) {
     e = e || window.event;
     // get the mouse cursor position at startup:
@@ -126,11 +144,8 @@ function setupBanana(elmnt) {
     pos2 = pos4 - e.clientY;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    // console.log(e.clientX + ', ' + e.clientY);
-    // console.log(animal.area.left);
     var hover = animal.area();
     if (e.clientX >= hover.left && e.clientX <= hover.right &&
       e.clientY >= hover.top && e.clientY <= hover.bottom) {
@@ -149,37 +164,9 @@ function setupBanana(elmnt) {
     document.onmouseup = null;
     document.onmousemove = null;
     if (beakIsOpen) {
-      destroyFruit()
+      banana.destroyFruit();
     }
   }
-}
-
-function destroyFruit() {
-  // var eatShape = document.createElement('div'); 
-  // var eatText = document.createElement('p');
-  // var textnode = document.createTextNode('slurp');
-  // eatShape.classList.add('eat-shape');
-  // eatText.classList.add('eat-text');
-  // eatShape.appendChild(eatText);
-  // eatText.appendChild(textnode);
-  // svgContainer.parentNode.appendChild(eatShape);
-  // Get editables position
-  var fruitStyle = window.getComputedStyle(bananaWrapper, null);
-  var fruitpos = {x: (parseInt(fruitStyle.left, 10)), y: (parseInt(fruitStyle.top, 10))};
-  // console.log(fruitpos);
-  animal.swallow();
-  // eatShape.style.left = '' + fruitpos.x + 'px';
-  // eatShape.style.top = '' + fruitpos.y + 'px';
-  TweenLite.to(bananaWrapper, .5, {scale:0, ease: Power2.easeInOut});
-  setTimeout(function() {
-    bananaWrapper.parentNode.removeChild(bananaWrapper);
-    // Place new banana
-    // bananaWrapper.style.left = '' + fruitpos.x + 20 + 'px';
-    // bananaWrapper.style.top = '' + fruitpos.y + 20 + 'px';
-    // TweenLite.to(bananaWrapper, .5, {x: 200, y: -80, scale: 1, ease: Power2.easeInOut});
-    // eatShape.parentNode.removeChild(eatShape);
-    animal.affectMouth(false);
-  }, 500);
 }
 
 setupBanana(bananaWrapper);
