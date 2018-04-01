@@ -67,8 +67,8 @@ function Bananimal (species, context, body, mouthU, mouthL, eye, tongue) {
 }
 
 var animal = new Bananimal('tucan',
-  document.getElementById('stick'),
-  document.getElementById('tucan_body'),
+  document.getElementById('context'),
+  document.getElementById('body'),
   document.getElementById('beak_top'),
   document.getElementById('beak_bot'),
   document.getElementById('eye'),
