@@ -10,7 +10,14 @@
 	<link rel="stylesheet" type="text/css" href="./css/style.css"/>
 </head>
 <body>
-
+	<div id="drag-container">
+		<div class="button-reg-one invisible drop" id="start" for="file-upload">
+			<label for="file-upload" id="upload-button"></label>
+			<div class="buttonicon" id="buttonicon"></div>
+			<!-- <h4 id="drag-instr"><p>drag song here</p></h4> -->
+			<output class="artistinfo one" id="infolist">Song:<br /></output>
+		</div>
+	</div>
 	<div id="container" class="container">
 		<!-- <div id="scene" class="scene">
 			<div class="shape" data-depth="1.00"></div>
@@ -305,6 +312,7 @@
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
 	<!-- <script type="text/javascript" src="MorphSVGPlugin.js"></script> -->
+	<script src="https://d3js.org/d3.v5.min.js"></script>
 	<script src="js/main.js" charset="utf-8"></script>
 	<script type="text/javascript">
 

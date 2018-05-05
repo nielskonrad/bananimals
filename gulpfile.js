@@ -30,6 +30,12 @@ gulp.task('copyHtml', function(){
       .pipe(gulp.dest('dist'));
 });
 
+// Copy All SVG files
+gulp.task('copySVG', function(){
+  gulp.src('src/assets/svg/*.svg')
+      .pipe(gulp.dest('dist/assets/svg'));
+});
+
 // Optimize Images
 gulp.task('imageMin', () =>
 	gulp.src('src/assets/img/*')
@@ -59,7 +65,7 @@ gulp.task('scripts', function(){
       .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('default', ['message', 'copyHtml', 'imageMin', 'sass', 'scripts']);
+gulp.task('default', ['message', 'copyHtml', 'copySVG', 'imageMin', 'sass', 'scripts']);
 
 gulp.task('watch', function(){
   gulp.watch('src/js/*.js', ['scripts']);
