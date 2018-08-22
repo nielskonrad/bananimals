@@ -18,12 +18,12 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^4.1.0",
-    "gulp-rename": "^1.2.2",
+    "gulp-rename": "^1.4.0",
     "gulp-sass": "^3.2.1",
-    "gulp-uglify": "^3.0.0",
+    "gulp-uglify": "^3.0.1",
     "watchify": "^3.11.0",
-    "webpack": "^4.2.0",
-    "webpack-dev-server": "^3.1.1"
+    "webpack": "^4.17.1",
+    "webpack-dev-server": "^3.1.5"
   },
   "dependencies": {
     "parallax-js": "^3.1.0"
