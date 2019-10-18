@@ -13,8 +13,9 @@
   "license": "ISC",
   "devDependencies": {
     "browserify": "^16.1.1",
-    "browserify-css": "^0.14.0",
+    "browserify-css": "^0.15.0",
     "browserifyy": "^1.0.0",
+    "gh-pages": "^2.1.1",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^4.1.0",
