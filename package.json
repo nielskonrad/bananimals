@@ -1,7 +1,7 @@
 {
   "name": "parallax-konrad-playground",
   "version": "1.0.0",
-  "description": "A test base for exploring the Parallax.js library",
+  "description": "Bananimals",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server ./index.js",
